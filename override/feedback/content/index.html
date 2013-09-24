@@ -1,0 +1,157 @@
+<!--[*]
+[tt=main][/tt]
+[*]-->
+<div class="bd">
+<h2>Интернет-приемная</h2>
+<p>
+	Уважаемые посетители! 
+</p>
+<p>
+	Чтобы получить оперативный и квалифицированный ответ на Ваш вопрос, 
+	обязательно заполните все поля формы. Лаконично и грамотно сформулируйте 
+	текст Вашего обращения.
+</p>
+<p>
+	В случае если Ваш вопрос относится к компетенции нашего учреждения, то Ваше обращение будет рассмотрено в течение 
+	15 дней с момента его регистрации. 
+</p>
+<p>
+	Если Вы хотите отправить свое мнение по поводу работы нашего сайта, то
+	специально для этого мы разработали более свободную форму обращений - <a href="#" onclick="showFeedbackPanel(); return false;">обратная связь</a>.
+	Чтобы воспользоваться ею, нажмите на кнопку <a href="#" onclick="showFeedbackPanel(); return false;">отправить сообщение</a>.
+	После отправки сообщение попадает в отдел информатизации, 
+	где в кратчайщие сроки рассматривается сотрудниками отдела.
+</p>
+<p>
+	<strong>
+		Прежде чем отправить обращение через Интернет-приемную, рекомендуем Вам 
+		просмотреть раздел <a href="/blog/vopros-otvet/">Часто задаваемые вопросы</a>. Возможно, 
+		Вы сразу найдете информацию на интересующую Вас тему.
+	</strong>
+</p>
+<div class="feedback-law">
+	ВНИМАНИЕ! В случае, если в письменном обращении не указаны фамилия гражданина, 
+	направившего обращение, и почтовый адрес, по которому должен быть направлен ответ, 
+	ответ на обращение не дается.
+	(<a title="Федеральный закон РФ от 2 мая 2006г. № 59-ФЗ 'О порядке рассмотрения 
+	обращений граждан Российской Федерации'" href="/feedback/fzakon59-f3.html">Федеральный закон РФ от 2 мая 2006г. № 59-ФЗ "О порядке рассмотрения обращений граждан Российской Федерации"</a>)
+</div>
+
+<form id="feedback_static_form" class="field" style="width: 525px">
+
+	<p>Поля, отмеченные <span class="red">*</span> - обязательны для заполнения.</p>
+
+	<table class="fiedls" style="width:520px;"><tbody>
+		<tr>
+			<td><label>Фамилия</label> <label class="red">*</label></td>
+			<td><input type="text" id="txt-feedback-fam" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Имя</label> <label class="red">*</label></td>
+			<td><input type="text" id="txt-feedback-im" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Отчество</label> <label class="red">*</label></td>
+			<td><input type="text" id="txt-feedback-otch" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Почтовый адрес</label> <label class="red">*</label></td>
+			<td><input type="text" id="txt-feedback-adress" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Место работы или учебы&nbsp;</label></td>
+			<td><input type="text" id="txt-feedback-work" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Контактный телефон</label></td>
+			<td><input type="text" id="txt-feedback-phone" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td><label>Электронная почта</label></td>
+			<td><input type="text" id="txt-feedback-email" value="" style="width: 300px" /></td>
+		</tr>
+	</tbody></table>
+	
+	<label>Ваш вопрос</label> <label class="red">*</label><br /> 
+	<textarea id="txt-feedback-msg" style="width: 500px; height: 200px"></textarea>
+	
+	<p>
+		<label for="txt-feedback-chemail">
+			Я хочу получить ответ по электронной почте <input id="txt-feedback-chemail" type="checkbox" checked="checked" />
+		</label>
+		<br />
+		<label for="txt-feedback-chpub">
+			Я не против, чтобы мой вопрос был опубликован <input id="txt-feedback-chpub" checked="checked" type="checkbox" />
+		</label>
+	</p>
+	
+	<div class="buttons center send-button">
+		<input class="btn-send" onclick="feedBackSendMessage(); return false;" type="button" value="Отправить" class="btn" />
+	</div>
+</form>
+</div>
+
+<script language='JavaScript' type='text/javascript' charset='utf-8'>
+
+function feedBackSendMessage(){
+	var gel = function(id){return document.getElementById('txt-feedback-'+id);};
+	var getval = function(id){return gel(id).value;};
+	var getvalch = function(id){return (gel(id)['checked'] ? 'Да' : 'Нет');}
+	var err = function(id, label){
+		if (getval(id).length < 1){
+			alert('Вы не заполнили обязательное поле: "'+label+'"');
+			try{gel(id).focus();}catch(ex){};
+			return true;
+		}
+		return false;
+	};
+	if (
+			err('fam', 'Фамилия') || 
+			err('im', 'Имя') || 
+			err('otch', 'Отчество') ||
+			err('adress', 'Почтовый адрес') ||
+			err('msg', 'Ваш вопрос')
+		){
+		return;
+	}
+
+	var fio = getval('fam')+' '+getval('im')+' '+getval('otch'); 
+	var msg = '';
+	msg += 'Обращение в Интернет-приемную\n';
+	msg += 'ФИО: '+fio+'\n';
+	msg += 'Почтовый адрес: '+getval('adress')+'\n';
+	msg += 'Место работы/учебы: '+getval('work')+'\n';
+	msg += 'Электронная почта: '+getval('email')+'\n';
+	msg += '\n';
+	msg += 'Получить ответ по email: '+getvalch('chemail')+'\n';
+	msg += 'Опубликовать вопрос: '+getvalch('chpub')+'\n';
+	msg += '\n';
+	msg += 'Текст вопроса:\n';
+	msg += getval('msg');
+
+	Brick.ff('sys', 'wait', function() {
+		var Dom = YAHOO.util.Dom;
+		
+		Dom.getElementsBy(function(el){
+			el.disabled = "disabled";
+		}, '', 'feedback_static_form');
+
+		var lw = new Brick.widget.LayWait('feedback_static_form'); 
+		Brick.ff('feedback', 'form', function() {
+			Brick.mod.feedback.NewMessageElement.send({
+				'data': {
+					'fio': fio,
+					'phone': getval('phone'),
+					'email': getval('email'),
+					'message': msg
+				}
+			}, function(){
+				lw.hide();
+				alert('Ваше сообщение успешно отправлено');
+			});
+		});
+	});
+};
+
+</script>
+ 
